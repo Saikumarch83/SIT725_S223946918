@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locate a Socket</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 10px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        section {
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        #map {
+            width: 100%;
+            height: 400px;
+            margin-top: 20px;
+            background-color: #e0e0e0; /* Temporary background to make the div visible */
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 300px;
+            margin: auto;
+        }
+
+        form input {
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .btn {
+            text-align: center;
+            padding: 10px;
+            background-color: teal;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+  </head>
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+  <body>
+
+    <!--JavaScript at end of body for optimized loading-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="Script.js"></script>
+    
+    <header>
+      <h1>Locate a Socket</h1>
+      <nav>
+          <ul>
+              <li><a href="#home">Home</a></li>
+              <li><a href="#search">Find Charging Stations</a></li>
+              <li><a href="#account">My Account</a></li>
+          </ul>
+      </nav>
+  </header>
+
+  <section id="home">
+      <h2>Welcome to Locate a Socket</h2>
+      <p>Find the nearest EV charging stations with ease. Our platform is designed to help electric vehicle owners locate charging stations quickly and conveniently. With real-time updates and a user-friendly interface, you can ensure that your vehicle is always charged and ready for your next journey.</p>
+      <p>Why Choose Us?</p>
+      <ul>
+          <li>Extensive network of charging stations</li>
+          <li>Real-time availability updates</li>
+          <li>User-friendly interface</li>
+          <li>Detailed station information and reviews</li>
+          <li>Route planning and navigation assistance</li>
+      </ul>
+      <p>Join our community of electric vehicle enthusiasts and never worry about finding a charging station again. Sign up for our newsletter to stay updated on the latest features and promotions.</p>
+  </section>
+  
+  <section id="search">
+      <h2>Find Charging Stations</h2>
+      <input type="text" id="location" placeholder="Enter your location">
+      <button class="btn" id="search-button">Search</button>
+      
+  </section>
+
+  <section id="account">
+      <h2>My Account</h2>
+      <form id="login-form">
+          <input type="email" id="email" placeholder="Email">
+          <input type="password" id="password" placeholder="Password">
+          <button class="btn" id="login">Login</button>
+      </form>
+  </section>
+
+  </body>
+  
+</html>
