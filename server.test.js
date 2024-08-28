@@ -5,6 +5,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
 const path = require('path');
+const { expect } = require('chai'); // Chai for assertions
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,14 +19,14 @@ let client;
 let db;
 let formsCollection;
 
-beforeAll(async () => {
+before(async () => {
   client = new MongoClient(url);
   await client.connect();
   db = client.db(dbName);
   formsCollection = db.collection('forms');
 });
 
-afterAll(async () => {
+after(async () => {
   await client.close();
 });
 
@@ -53,27 +54,27 @@ app.post('/submit', async (req, res) => {
 describe('POST /submit', () => {
   it('should submit form data and store it in the database', async () => {
     const formData = {
-      fullName: 'Sai',
-      email: 'Sai@example.com',
-      phoneNumber: '0425700709',
-      address: '132 kelvinside road',
-      dob: '1998-04-07', // Only the date component
+      fullName: 'CSK',
+      email: 'csk@example.com',
+      phoneNumber: '1234567890',
+      address: 'chennai',
+      dob: '2008-01-01',
     };
 
     const response = await request(app).post('/submit').send(formData);
 
     // Assert that the response status is 200
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).to.equal(200);
 
     // Assert that the response body matches the sent data
-    expect(response.body.data.dob.split('T')[0]).toBe(formData.dob); // Compare only the date part
+    expect(response.body.data.dob.split('T')[0]).to.equal(formData.dob);
 
     // Check if the data is actually stored in the database
     const storedData = await formsCollection.findOne({ email: formData.email });
-    expect(storedData.fullName).toBe(formData.fullName);
-    expect(storedData.email).toBe(formData.email);
-    expect(storedData.phoneNumber).toBe(formData.phoneNumber);
-    expect(storedData.address).toBe(formData.address);
-    expect(storedData.dob.toISOString().split('T')[0]).toBe(formData.dob); // Compare only the date part
+    expect(storedData.fullName).to.equal(formData.fullName);
+    expect(storedData.email).to.equal(formData.email);
+    expect(storedData.phoneNumber).to.equal(formData.phoneNumber);
+    expect(storedData.address).to.equal(formData.address);
+    expect(storedData.dob.toISOString().split('T')[0]).to.equal(formData.dob);
   });
 });
