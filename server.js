@@ -2,15 +2,26 @@ const express = require('express');
 const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
 const path = require('path');
+const http = require('http');
+const { Server } = require('socket.io');
 
+// Create Express app and HTTP server
 const app = express();
+const server = http.createServer(app);
+
+// Initialize Socket.IO
+const io = new Server(server);
+
+// Middleware to parse form data
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname)));
 
-const url = 'mongodb+srv://s223946918:ESFl9pIBQJ5NCz98@cluster0.aqhgcai.mongodb.net/'; // Connection URL for your MongoDB
+// MongoDB connection
+const url = 'mongodb+srv://s223946918:ESFl9pIBQJ5NCz98@cluster0.aqhgcai.mongodb.net/';
 const client = new MongoClient(url);
-
 const dbName = 'dataProtectionDB';
+
+let connectedUsers = 0; // Track connected users
 
 async function main() {
     await client.connect();
@@ -37,13 +48,28 @@ async function main() {
 
             await formsCollection.insertOne(formData);
             res.send('Thank you! Your form has been submitted.');
+
+            // Emit real-time message to the connected clients via Socket.IO
+            io.emit('formSubmitted', formData);
         } catch (err) {
             res.status(500).send('Error: Unable to save your data.');
         }
     });
 
-    app.listen(3000, () => {
-        console.log('Server is running on port 3000');
+    // Handle Socket.IO connections
+    io.on('connection', (socket) => {
+        connectedUsers++;
+        io.emit('userCountUpdated', connectedUsers);
+
+        socket.on('disconnect', () => {
+            connectedUsers--;
+            io.emit('userCountUpdated', connectedUsers);
+        });
+    });
+
+    // Start the server
+    server.listen(3000, () => {
+        console.log('Server and Socket.IO are running on port 3000');
     });
 }
 
