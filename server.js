@@ -1,23 +1,27 @@
-const express = require('express');
-const { MongoClient } = require('mongodb');
-const bodyParser = require('body-parser');
-const path = require('path');
-const http = require('http');
-const { Server } = require('socket.io');
+import express from 'express';
+import { MongoClient } from 'mongodb';
+import bodyParser from 'body-parser';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import http from 'http';
+import { Server } from 'socket.io';
 
 // Create Express app and HTTP server
 const app = express();
 const server = http.createServer(app);
-
-// Initialize Socket.IO
 const io = new Server(server);
 
 // Middleware to parse form data
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname)));
+
+// Get the directory name for the static files
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(__dirname));
 
 // MongoDB connection
-const url = 'mongodb+srv://s223946918:ESFl9pIBQJ5NCz98@cluster0.aqhgcai.mongodb.net/';
+const url = 'mongodb+srv://s223946918:ESFl9pIBQJ5NCz98@cluster0.aqhgcai.mongodb.net/mongodb+srv://<your-connection-string>';
 const client = new MongoClient(url);
 const dbName = 'dataProtectionDB';
 
