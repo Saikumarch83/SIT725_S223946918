@@ -55,10 +55,10 @@ describe('POST /submit', () => {
   it('should submit form data and store it in the database', async () => {
     const formData = {
       fullName: 'CSK',
-      email: 'csk@example.com',
-      phoneNumber: '1234567890',
-      address: 'chennai',
-      dob: '2008-01-01',
+      email: 'S223946918@deakin.com',
+      phoneNumber: '0425700701425',
+      address: '132 kelvinside road, nobel park, melbourne, victoria',
+      dob: '2024-09-30',
     };
 
     const response = await request(app).post('/submit').send(formData);
